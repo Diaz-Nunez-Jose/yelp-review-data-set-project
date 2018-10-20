@@ -1,0 +1,151 @@
+import nltk 
+
+# def word_features(word):
+#     return {'last_letter': word[-1]}
+
+def word_features(word):
+    return {word: True}
+
+# def word_feats(words):
+#     return dict([(word, True) for word in words])
+
+# print(word_features('Shrek'))
+
+# positive_words = [word.rstrip('\n') for word in open('yelp_data_set/positive-words-custom.txt')]
+# # positive_vocab = np.random.choice(positive_vocab, 10, replace=False)
+
+# negative_words = [word.rstrip('\n') for word in open('yelp_data_set/negative-words-custom.txt')]
+# # negative_vocab = np.random.choice(negative_vocab, 2500, replace=False)
+
+# labeled_words = ([(word, 'pos') for word in [word.rstrip('\n') for word in open('yelp_data_set/positive-words-custom.txt')]] + \
+#     [(word, 'neg') for word in [word.rstrip('\n') for word in open('yelp_data_set/negative-words-custom.txt')]])
+
+labeled_words = ([(word, 'pos') for word in [word.rstrip('\n') for word in open('yelp_data_set/positive-words.txt')]] + \
+    [(word, 'neg') for word in [word.rstrip('\n') for word in open('yelp_data_set/negative-words.txt')]])
+
+import random
+random.shuffle(labeled_words)
+
+featuresets = [(word_features(word), label) for (word, label) in labeled_words]
+train_set, test_set = featuresets[65:], featuresets[:65]
+classifier = nltk.NaiveBayesClassifier.train(train_set)
+
+print(classifier.classify(word_features('dirty')))
+print(classifier.classify(word_features('filthy')))
+
+print(nltk.classify.accuracy(classifier, test_set))
+
+
+
+# import nltk 
+
+# def gender_features(word):
+#     return {'last_letter': word[-1]}
+
+# print(gender_features('Shrek'))
+
+# from nltk.corpus import names
+# labeled_names = ([(name, 'male') for name in names.words('male.txt')] + [(name, 'female') for name in names.words('female.txt')])
+
+# import random
+# random.shuffle(labeled_names)
+
+# featuresets = [(gender_features(n), gender) for (n, gender) in labeled_names]
+# train_set, test_set = featuresets[500:], featuresets[:500]
+# classifier = nltk.NaiveBayesClassifier.train(train_set)
+
+# classifier.classify(gender_features('Neo'))
+# classifier.classify(gender_features('Trinity'))
+
+# print(nltk.classify.accuracy(classifier, test_set))
+
+
+
+
+# # https://pythonspot.com/python-sentiment-analysis/
+# import numpy as np
+
+# import pandas as pd
+
+# import nltk.classify.util
+# from nltk.classify import NaiveBayesClassifier
+# from nltk.corpus import names
+# from nltk.corpus import words
+# import string
+ 
+# def word_feats(words):
+#     return dict([(word, True) for word in words])
+
+# positive_vocab = [word.rstrip('\n') for word in open('yelp_data_set/positive-words-custom.txt')]
+# # positive_vocab = np.random.choice(positive_vocab, 10, replace=False)
+
+# negative_vocab = [word.rstrip('\n') for word in open('yelp_data_set/negative-words-custom.txt')]
+# # negative_vocab = np.random.choice(negative_vocab, 2500, replace=False)
+
+# neutral_vocab = []
+# word_list = words.words()
+# # [neutral_vocab.append(word) for word in word_list if (word not in positive_vocab and word not in negative_vocab and n)]
+# n = 10000 # get every 100th word
+# for i, word in enumerate(word_list):
+# 	if i % n == 0 and \
+# 	   word not in positive_vocab and \
+# 	   word not in negative_vocab:
+# 		neutral_vocab.append(word)
+
+# # positive_vocab = [ 'awesome', 'outstanding', 'fantastic', 'terrific', 'good', 'nice', 'great', ':)' ]
+# # negative_vocab = [ 'bad', 'terrible','useless', 'hate', ':(' ]
+# # neutral_vocab = [ 'movie','the','sound','was','is','actors','did','know','words','not' ]
+
+# positive_features = [(word_feats(pos), 'pos') for pos in positive_vocab]
+# negative_features = [(word_feats(neg), 'neg') for neg in negative_vocab]
+# neutral_features = [(word_feats(neu), 'neu') for neu in neutral_vocab]
+
+# # print(len(positive_vocab))
+# # print(len(negative_vocab))
+# # print(len(neutral_vocab))
+ 
+# train_set = negative_features + positive_features + neutral_features
+ 
+# classifier = NaiveBayesClassifier.train(train_set) 
+
+# targets = []
+# predictions = []
+
+# df = pd.read_csv("yelp_data_set/Hygiene/hygiene-data-merged.csv")
+# # # df = pd.DataFrame(np.random.randn(100, 2))
+# # msk = np.random.rand(len(df)) < 0.8
+# # df_train = df[msk]
+# # df_test = df[~msk]
+
+# # print(df_train.shape)
+# # print(df_test.shape)
+
+# for row in df.itertuples():
+#     targets.append(int(row.passed_inspection))
+#     # Predict
+#     neg = 0
+#     pos = 0
+#     # sentence = "the floors were dirty and nasty and gross and it stunk a foul stench. just terrible"
+#     # sentence = "awesome great good wonderful"
+#     sentence = row.text
+
+#     sentence = sentence.lower()
+#     map = str.maketrans('', '', string.punctuation)
+#     sentence = sentence.translate(map)    
+#     words = sentence.split(' ')
+
+#     for word in words:
+#         classResult = classifier.classify( word_feats(word))
+#         if classResult == 'neg':
+#             neg = neg + 1
+#         if classResult == 'pos':
+#             pos = pos + 1
+     
+#     percent_positive = float(pos)/len(words)
+#     percent_negative = float(neg)/len(words)
+#     if percent_positive >= percent_negative:
+#         predictions.append(0)
+#     else:
+#         predictions.append(1)
+
+# print(df["passed_inspection"])
