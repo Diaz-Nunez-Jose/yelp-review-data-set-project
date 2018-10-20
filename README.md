@@ -1,6 +1,7 @@
 # Project Description
 The overall goal of the project is to analyze and mine a Yelp review text data set to discover useful knowledge and solve a real-world data mining problem. I will work on a restaurant review data set provided by Yelp.com. The project builds on interesting knowledge about data science and computer science topics, such as pattern discovery, clustering, text retrieval, text mining, and data visualization - all of which are necessary to effectively mine the data to discover interesting insights and meet the requirements described below.
 
+# Requirements
 ## Opinion Visualization
 ### DESCRIPTION
 Explore and visualize the review content to understand what people have said in those reviews.
